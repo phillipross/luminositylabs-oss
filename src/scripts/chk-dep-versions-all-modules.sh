@@ -6,7 +6,7 @@ set -euf -o pipefail
 # Usage: ./chk-dep-versions-all-modules.sh
 
 # ---------- Configuration ----------
-module_roots=("./pom.xml" "testing/pom.xml")
+source .cfg
 # -----------------------------------
 
 for module in "${module_roots[@]}"; do

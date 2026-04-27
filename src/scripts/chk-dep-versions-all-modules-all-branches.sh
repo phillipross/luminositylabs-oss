@@ -5,7 +5,7 @@ set -euf -o pipefail
 # Usage: ./chk-dep-versions-all-modules-all-branches.sh
 
 # ---------- Configuration ----------
-branches=("jdk8" "jdk11" "jdk17" "jdk21" "jdk25" "jdk26" "main")
+source .cfg
 # -----------------------------------
 
 # ---------- Helper functions ----------

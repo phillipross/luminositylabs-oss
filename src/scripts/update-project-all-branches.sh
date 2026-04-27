@@ -2,8 +2,9 @@
 set -euo pipefail
 
 # ---------- Configuration ----------
-module_roots=("." "testing/")
-branches=("jdk8" "jdk11" "jdk17" "jdk21" "jdk25" "jdk26" "main")
+#module_roots=("." "testing/")
+#branches=("jdk8" "jdk11" "jdk17" "jdk21" "jdk25" "jdk26" "main")
+source .cfg
 profiles="check-versions,gpg,release-sign-artifacts,sonatype-central-portal-deployment,sonatype-central-snapshots,sonatype-releases,sonatype-snapshots,sonatype-staging"
 # -----------------------------------
 
