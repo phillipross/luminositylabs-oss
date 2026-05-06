@@ -185,3 +185,13 @@ clean_project() {
     ./mvnw -f "${_pom}" -P"${_profiles}" clean
   done
 }
+
+# Check that the specified command is invocable
+cmd_available() {
+  local req_cmd="$1"
+  # Check that the yq utility is in the path
+  if ! command -v "$req_cmd" >/dev/null 2>&1; then
+    log "ERROR" "Required '$1' util not installed, not in PATH, or otherwise not invocable."
+    return 1
+  fi
+}

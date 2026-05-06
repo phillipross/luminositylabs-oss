@@ -11,6 +11,9 @@ SCRIPT_DIR="$(dirname "${SCRIPT_PATH}")"
 # Include the utils
 source "${SCRIPT_DIR}"/utils.sh
 
+# Verify yq utility is available (needed for reading configs)
+cmd_available yq
+
 # Verify script is running in bash v5+
 check_bash_version 5
 

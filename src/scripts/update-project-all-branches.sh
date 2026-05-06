@@ -11,6 +11,9 @@ SCRIPT_DIR="$(dirname "${SCRIPT_PATH}")"
 # Include the utils
 source "${SCRIPT_DIR}"/utils.sh
 
+# Verify yq utility is available (needed for reading configs)
+cmd_available yq
+
 # Verify script is running in bash v5+
 check_bash_version 5
 
@@ -18,9 +21,13 @@ check_bash_version 5
 PROJECT_ROOT="$(find_path_in_parent_chain ".git")"
 log "DEBUG" "PROJECT_ROOT ==> ${PROJECT_ROOT}"
 
+# Read configs
+TOML_FILE="${PROJECT_ROOT}/project.toml"
+[[ -f $TOML_FILE ]] || { echo "Error: $TOML_FILE file not found."; exit 1; }
+mapfile -t branches < <(yq '.branches[]' "$TOML_FILE")
+mapfile -t poms < <(yq '.poms[]' "$TOML_FILE")
+
 # ---------- Configuration ----------
-module_roots=("./pom.xml" "testing/pom.xml")
-branches=("jdk8" "jdk11" "jdk17" "jdk21" "jdk25" "jdk26" "main")
 profiles="check-versions,gpg,release-sign-artifacts,sonatype-central-portal-deployment,sonatype-central-snapshots,sonatype-releases,sonatype-snapshots,sonatype-staging"
 # -----------------------------------
 
@@ -47,8 +54,8 @@ for branch in "${branches[@]}"; do
   # Use the wrapper to avoid the "$2: unbound variable" problem.
   run_sdk env
 
-  build_project "${profiles}" "${module_roots[@]}"
-  clean_project "${profiles}" "${module_roots[@]}"
+  build_project "${profiles}" "${poms[@]}"
+  clean_project "${profiles}" "${poms[@]}"
 
   log "INFO" "✅ Branch operations completed successfully for $current_branch"
 done

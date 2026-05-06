@@ -11,6 +11,9 @@ SCRIPT_DIR="$(dirname "${SCRIPT_PATH}")"
 # Include the utils
 source "${SCRIPT_DIR}"/utils.sh
 
+# Verify yq utility is available (needed for reading configs)
+cmd_available yq
+
 # Verify script is running in bash v5+
 check_bash_version 5
 
@@ -18,9 +21,10 @@ check_bash_version 5
 PROJECT_ROOT="$(find_path_in_parent_chain ".git")"
 log "DEBUG" "PROJECT_ROOT ==> ${PROJECT_ROOT}"
 
-# ---------- Configuration ----------
-branches=("jdk8" "jdk11" "jdk17" "jdk21" "jdk25" "jdk26" "main")
-# -----------------------------------
+# Read configs
+TOML_FILE="${PROJECT_ROOT}/project.toml"
+[[ -f $TOML_FILE ]] || { echo "Error: $TOML_FILE file not found."; exit 1; }
+mapfile -t branches < <(yq '.branches[]' "$TOML_FILE")
 
 # ---------- Helper functions ----------
 checkout_branch() {
