@@ -5,6 +5,15 @@ set -euf -o pipefail
 JAVA_VERSION=$1
 
 printf "Installing, configuring, and initializing SDKMAN\n"
+
+if [ "$(uname -s)" = "Darwin" ]; then
+    if command -v brew &>/dev/null; then
+        brew install bash
+    else
+        printf "Homebrew not found; skipping prerequisite install\n"
+    fi
+fi
+
 curl -s "https://get.sdkman.io" | bash
 sed -i -e "s/sdkman_auto_answer=false/sdkman_auto_answer=true/" "${HOME}/.sdkman/etc/config"
 set +uf
