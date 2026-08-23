@@ -10,7 +10,7 @@ jobs:
   build-codebase:
     strategy:
       matrix:
-        os: [ubuntu-26.04]
+        os: [ubuntu-26.04, ubuntu-26.04-arm, macos-26, macos-26-intel]
         jdk_version: [25.0.5.0+8-zulu]
         include:
           - os: ubuntu-26.04
