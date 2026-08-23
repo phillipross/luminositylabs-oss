@@ -14,14 +14,14 @@ if [ "$(uname)" = "Linux" ]; then
         sudo apt-get install -y gnupg haveged
         ;;
       *)
-        printf "Non-Debian Linux detected ($ID); skipping apt-get." >&2
+        printf "Non-Debian Linux detected %s; skipping apt-get\n" "${ID}" >&2
     esac
   fi
 elif [ "$(uname)" = "Darwin" ]; then
   # Handle macOS
   printf "macOS detected; skipping apt-get commands"
 else
-  printf "Unsupported platform: $(name)" >&2
+  printf "Unsupported platform: %s\n" "$(uname)" >&2
 fi
 
 rm -rf ~/.gnupg

@@ -33,7 +33,7 @@ jobs:
       uses: actions/checkout@v6
 
     - name: Install GPG and generate test key
-      if: ${{ matrix.os != 'macos-26' && matrix.os != 'macos-26-intel' }}
+#      if: ${{ matrix.os != 'macos-26' && matrix.os != 'macos-26-intel' }}
       run: .github/install-gpg.sh
 
     - name: Install SDKMAN and java environment
