@@ -2,8 +2,27 @@
 
 set -euf
 
-sudo apt-get update
-sudo apt-get install -y gnupg haveged
+# os detection
+if [ "$(uname)" = "Linux" ]; then
+  # Handle Linux
+  # linux distro detection
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    case "$ID" in
+      debian|ubuntu)
+        sudo apt-get update
+        sudo apt-get install -y gnupg haveged
+        ;;
+      *)
+        printf "Non-Debian Linux detected ($ID); skipping apt-get." >&2
+    esac
+  fi
+elif [ "$(uname)" = "Darwin" ]; then
+  # Handle macOS
+  printf "macOS detected; skipping apt-get commands"
+else
+  printf "Unsupported platform: $(name)" >&2
+fi
 
 rm -rf ~/.gnupg
 gpg --list-keys
@@ -36,4 +55,3 @@ gpg -d key-info.asc
 rm key-info.asc
 
 set +euf
-
