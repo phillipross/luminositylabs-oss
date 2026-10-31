@@ -14,8 +14,30 @@
     <name>nio2-filewalker</name>
 
     <properties>
-        <maven.test.skip>true</maven.test.skip>
+        <maven.test.skip>false</maven.test.skip>
+
+        <dependency.junit6.version>6.1.3</dependency.junit6.version>
+        <dependency.junit.version>${dependency.junit6.version}</dependency.junit.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${dependency.junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -27,9 +49,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <includes>
+                    <!-- If <includesFile> is not being used, specifying an <includes> list with a non-existent class
+                         specified will effectively disable default includes. -->
+                    <!--<includes>
                         <include>DisableDefaultIncludesBySpecifyingThisNonexistentStubClass</include>
-                    </includes>
+                    </includes>-->
                     <includesFile>${project.build.testOutputDirectory}/surefire-tests.lst</includesFile>
                 </configuration>
             </plugin>

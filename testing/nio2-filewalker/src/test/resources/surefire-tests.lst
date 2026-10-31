@@ -1,1 +1,3 @@
-co.luminositylabs.oss.testing.nio2.FileWalkTest
+#co.luminositylabs.oss.testing.nio2.ExperimentATest
+#co.luminositylabs.oss.testing.nio2.FileWalkTest
+**/*Suite.java
